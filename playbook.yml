@@ -1,0 +1,40 @@
+- name: Server setup
+  hosts: all
+  become: true
+  tasks:
+  
+    - name: Update system
+      apt:
+        update_cache: yes
+        upgrade: dist
+      tags:
+        - update
+
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+      tags:
+        - nginx
+
+    - name: Start and enable Nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+      tags:
+        - nginx
+
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
+      tags:
+        - restart_nginx
+
+    - name: Install VPN (WireGuard)
+      apt:
+        name: wireguard
+        state: present
+      tags:
+        - vpn
